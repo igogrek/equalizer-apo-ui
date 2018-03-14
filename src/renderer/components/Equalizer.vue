@@ -1,9 +1,9 @@
 <template>
     <div class="equalizer">
         <div class="sidebar">
-            <div class="caption">Pream</div>
+            <div class="caption">Preamp</div>
             <div class="input">
-                <input type="range" orient="vertical"/>
+                <div class="range"/>
             </div>
         </div>
         <div class="controls">
@@ -68,8 +68,8 @@
                         }
                     }
                 };
-
-                if (index == ranges.length - 1) {
+                // Show pips only on last slider
+                if (index === ranges.length - 1) {
                     rangeOptions.pips = {
                         mode: 'steps',
                         stepped: true,
