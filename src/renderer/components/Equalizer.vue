@@ -8,7 +8,7 @@
         </div>
         <div class="controls">
             <div class="toolbar">
-                <button>Reset</button>
+                <button @click="reset">Reset</button>
             </div>
             <div id="ranges">
             </div>
@@ -32,58 +32,46 @@
                 const element = document.createElement('div');
                 rangesNode.appendChild(element);
 
-                const value = valueMap[1];
-                //console.log(parseInt(value))
-
                 const rangeOptions = {
-                    start: [0],
+                    start: [valueMap[1]],
                     animate: true,
                     animationDuration: 500,
-                    step: 10,
                     range: {
                         'min': [-100],
                         'max': [100]
                     },
                     orientation: 'vertical',
                     direction: 'rtl',
-                    tooltips: true,
-                    // pips: {
-                    //     mode: 'steps',
-                    //     stepped: true,
-                    //     density: 4
-                    // },
-                    format: {
-                        to: function (value) {
-                            return parseInt(value);
-                        },
-                        from: function (value) {
-                            return value;
-                        }
-                    }
+                    tooltips: true
                 };
                 // Show pips only on last slider
                 if (index === values.length - 1) {
                     rangeOptions.pips = {
-                        mode: 'steps',
+                        mode: 'values',
+                        values: [-100, -75, -50, -25, 0, 25, 50, 75, 100],
                         stepped: true,
-                        density: 2
+                        density: 3
                     };
                 }
 
                 noUiSlider.create(element, rangeOptions);
             });
-            //const ranges = document.querySelectorAll('.range');
-
         },
         methods: {
             open(link) {
                 this.$electron.shell.openExternal(link)
+            },
+            reset() {
+                document.querySelectorAll('#ranges > div').forEach(range => {
+                    range.noUiSlider.set(0)
+                })
             }
         }
     }
 </script>
 
 <style lang="scss">
+    // Show tooltip only on click
     .noUi-tooltip {
         display: none;
     }
