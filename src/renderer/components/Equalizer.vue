@@ -10,22 +10,7 @@
             <div class="toolbar">
                 <button>Reset</button>
             </div>
-            <div class="input">
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
-                <div class="range"/>
+            <div id="ranges">
             </div>
         </div>
     </div>
@@ -38,14 +23,22 @@
     export default {
         name: 'equalizer',
         mounted: function () {
-            const ranges = document.querySelectorAll('.range');
 
-            ranges.forEach((range, index) => {
+            const values = [[25, 14], [40, 6.7], [63, 2.4], [100, 0], [160, 0], [250, 0], [400, 0], [630, 0.3],
+                [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]];
+
+            const rangesNode = document.getElementById('ranges');
+            values.forEach((valueMap, index) => {
+                const element = document.createElement('div');
+                rangesNode.appendChild(element);
+
+                const value = valueMap[1];
+                //console.log(parseInt(value))
+
                 const rangeOptions = {
                     start: [0],
-                    //
                     animate: true,
-                    animationDuration: 300,
+                    animationDuration: 500,
                     step: 10,
                     range: {
                         'min': [-100],
@@ -69,7 +62,7 @@
                     }
                 };
                 // Show pips only on last slider
-                if (index === ranges.length - 1) {
+                if (index === values.length - 1) {
                     rangeOptions.pips = {
                         mode: 'steps',
                         stepped: true,
@@ -77,8 +70,10 @@
                     };
                 }
 
-                noUiSlider.create(range, rangeOptions);
-            })
+                noUiSlider.create(element, rangeOptions);
+            });
+            //const ranges = document.querySelectorAll('.range');
+
         },
         methods: {
             open(link) {
