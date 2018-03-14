@@ -84,6 +84,15 @@
         display: inline-block;
         margin: 20px;
         height: 400px;
+        cursor: pointer;
+
+        .noUi-handle {
+            cursor: -webkit-grab;
+
+            &.noUi-active {
+                cursor: -webkit-grabbing;
+            }
+        }
     }
 
     html,
@@ -124,7 +133,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            & .caption {
+
+            .caption {
                 padding: 10px 0px;
                 flex-basis: 10%;
             }
@@ -145,7 +155,8 @@
                 padding: 10px 0px;
                 justify-content: space-between;
                 flex-basis: 10%;
-                & button {
+
+                button {
                     outline: 0;
                     background: rgba(255, 255, 255, .2);
                     border: 1px solid rgba(255, 255, 255, .35);
@@ -154,6 +165,11 @@
                     padding: 12px 14px;
                     line-height: 0;
                     border-radius: 3px;
+                    cursor: pointer;
+
+                    &:hover {
+                        border: 1px solid white !important;
+                    }
                 }
             }
         }
