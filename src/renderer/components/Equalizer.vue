@@ -38,7 +38,7 @@
 
                 // The data for our dataset
                 data: {
-                    labels: values.map(value => value[1]),
+                    labels: values.map(value => value[0]),
                     datasets: [{
                         label: "My First dataset",
                         backgroundColor: 'rgb(255, 99, 132)',
