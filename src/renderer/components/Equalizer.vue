@@ -50,6 +50,9 @@
 
                 // Configuration options go here
                 options: {
+                    animation: {
+                        duration: 500
+                    },
                     legend: {
                         display: false
                     },
@@ -217,6 +220,7 @@
                 padding: 10px 0px;
                 justify-content: space-between;
                 flex-basis: 10%;
+                z-index: 10;
 
                 button {
                     outline: 0;
