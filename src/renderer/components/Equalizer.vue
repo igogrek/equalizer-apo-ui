@@ -10,6 +10,7 @@
             <div class="toolbar">
                 <button @click="reset">Reset</button>
             </div>
+            <canvas id="chart" ></canvas>
             <div id="ranges">
             </div>
         </div>
@@ -18,14 +19,46 @@
 
 <script>
     import noUiSlider from 'nouislider'
+    import Chart from 'chart.js';
     import 'nouislider/distribute/nouislider.css'
 
     export default {
         name: 'equalizer',
         mounted: function () {
 
-            const values = [[25, 14], [40, 6.7], [63, 2.4], [100, 0], [160, 0], [250, 0], [400, 0], [630, 0.3],
+            const values = [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
                 [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]];
+
+            const ctx = document.getElementById('chart').getContext('2d');
+
+
+            const chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: values.map(value => value[1]),
+                    datasets: [{
+                        label: "My First dataset",
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: values.map(value => value[1]),
+                    }]
+                },
+
+                // Configuration options go here
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                max: 100,
+                                min: -100
+                            }
+                        }]
+                    }
+                }
+            });
 
             const rangesNode = document.getElementById('ranges');
             values.forEach((valueMap, index) => {
@@ -42,7 +75,8 @@
                     },
                     orientation: 'vertical',
                     direction: 'rtl',
-                    tooltips: true
+                    tooltips: true,
+                    connect: [true, false]
                 };
                 // Show pips only on last slider
                 if (index === values.length - 1) {
@@ -55,6 +89,11 @@
                 }
 
                 noUiSlider.create(element, rangeOptions);
+
+                element.noUiSlider.on('update', values => {
+                    chart.data.datasets[0].data[index] = Number(values[0]);
+                    chart.update();
+                });
             });
         },
         methods: {
@@ -82,8 +121,10 @@
 
     .noUi-vertical {
         display: inline-block;
-        margin: 20px;
-        height: 400px;
+        margin-left: 30px;
+        margin-right: 22px;
+        margin-top: 60px;
+        height: 460px;
         cursor: pointer;
 
         .noUi-handle {
@@ -147,6 +188,10 @@
             flex-grow: 1;
             background: #b71284;
             padding: 10px;
+
+            #ranges {
+                position: absolute;
+            }
 
             .toolbar {
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
