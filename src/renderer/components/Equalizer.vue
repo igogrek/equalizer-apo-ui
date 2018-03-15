@@ -42,16 +42,34 @@
                     datasets: [{
                         label: "My First dataset",
                         backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
+                        borderColor: 'blue',
+                        pointRadius: 0, // Do not show dots
                         data: values.map(value => value[1]),
                     }]
                 },
 
                 // Configuration options go here
                 options: {
+                    legend: {
+                        display: false
+                    },
                     scales: {
-                        yAxes: [{
+                        xAxes: [{
+                            gridLines: {
+                                display: false,
+                                drawBorder: false,
+                            },
                             ticks: {
+                                fontColor: 'white'
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                display: false,
                                 max: 100,
                                 min: -100
                             }
@@ -121,10 +139,9 @@
 
     .noUi-vertical {
         display: inline-block;
-        margin-left: 30px;
-        margin-right: 22px;
-        margin-top: 60px;
-        height: 460px;
+        margin-right: 55px;
+        margin-top: 30px;
+        height: 500px;
         cursor: pointer;
 
         .noUi-handle {
