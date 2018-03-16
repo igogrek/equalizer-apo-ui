@@ -9,7 +9,11 @@
     <div class="controls">
       <div class="toolbar">
         <a class="button is-small" @click="reset">Reset</a>
-        <a class="button is-small button-right" @click="close">X</a>
+        <div class="buttons has-addons">
+          <a class="button is-small" @click="minimize">_</a>
+          <a class="button is-small" @click="close">X</a>
+        </div>
+
       </div>
       <div class="chart-container">
         <div id="ranges" class="columns is-mobile"></div>
@@ -131,6 +135,9 @@
           range.noUiSlider.set(0)
         })
       },
+      minimize() {
+        this.$electron.remote.BrowserWindow.getFocusedWindow().minimize()
+      },
       close() {
         this.$electron.remote.app.quit()
       },
@@ -196,16 +203,10 @@
       border-radius: 3px;
     }
 
-
     &:hover {
       color: rgba(255, 255, 255, .85);
       border: 1px solid white !important;
     }
-  }
-
-  .button-right {
-    right: 20px;
-    position: absolute;
   }
 
   html,
@@ -275,6 +276,12 @@
         display: block;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding-bottom: 10px;
+
+        .buttons {
+          position: absolute;
+          right: 20px;
+          top: 20px;
+        }
       }
     }
   }
