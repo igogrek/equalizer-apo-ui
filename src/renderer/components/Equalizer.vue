@@ -1,24 +1,24 @@
 <template>
-    <div class="equalizer">
-        <div class="sidebar">
-            <div class="caption">Preamp</div>
-            <div class="input">
-                <div class="range"/>
-            </div>
-        </div>
-        <div class="controls">
-            <div class="toolbar">
-                <a class="button is-small" @click="reset">Reset</a>
-                <a class="button is-small is-pulled-right" @click="close">X</a>
-            </div>
-            <div>
-                <div id="ranges" class="columns is-mobile">
-
-                </div>
-                <canvas id="chart"></canvas>
-            </div>
-        </div>
+  <div class="equalizer">
+    <div class="sidebar">
+      <div class="caption">Preamp</div>
+      <div class="input">
+        <div class="range"/>
+      </div>
     </div>
+    <div class="controls">
+      <div class="toolbar">
+        <a class="button is-small" @click="reset">Reset</a>
+        <a class="button is-small is-pulled-right" @click="close">X</a>
+      </div>
+      <div>
+        <div id="ranges" class="columns is-mobile">
+
+        </div>
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -141,124 +141,126 @@
 </script>
 
 <style lang="scss">
-    @import '~bulma/sass/utilities/_all';
-    @import '~bulma/sass/base/_all';
-    @import '~bulma/sass/grid/columns';
-    @import '~bulma/sass/elements/button';
+  @import '~bulma/sass/utilities/_all';
+  @import '~bulma/sass/base/_all';
+  @import '~bulma/sass/grid/columns';
+  @import '~bulma/sass/elements/button';
 
-    // Show tooltip only on click
-    .noUi-tooltip {
-        display: none;
+  // Show tooltip only on click
+  .noUi-tooltip {
+    display: none;
+  }
+
+  .noUi-active .noUi-tooltip {
+    display: block;
+  }
+
+  #chart {
+    position: absolute;
+    width: 100%;
+  }
+
+  .noUi-vertical {
+    display: inline-block;
+    height: calc(100vh - 100px);
+    cursor: pointer;
+
+    .noUi-handle {
+      cursor: -webkit-grab;
+
+      &.noUi-active {
+        cursor: -webkit-grabbing;
+      }
     }
+  }
 
-    .noUi-active .noUi-tooltip {
+  // Disable window dragging
+  .button, .noUi-vertical {
+    -webkit-app-region: no-drag;
+  }
+
+  .button {
+    //background: transparent;
+    //color: white;
+
+    background: rgba(255, 255, 255, .2);
+    border: 1px solid rgba(255, 255, 255, .35);
+    color: rgba(255, 255, 255, .85);
+
+    &:hover {
+      color: rgba(255, 255, 255, .85);
+      border: 1px solid white !important;
+    }
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  html {
+    background: radial-gradient(ellipse at bottom, rgba(210, 73, 118, 1) 0%, rgba(61, 25, 136, 1));
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // TODO enable adter debug
+    //-webkit-app-region: drag;
+  }
+
+  .equalizer {
+    user-select: none;
+    width: 100vw;
+    max-width: 1000px;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, .5);
+    border-radius: 4px;
+    color: #484848;
+    font-family: sans-serif;
+    height: calc(100% - 40px);
+    margin: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+
+    .sidebar {
+      background-color: #fff;
+      width: 50px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .caption {
+        padding: 10px 0px;
+        flex-basis: 10%;
+      }
+
+    }
+    .controls {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      background: #b71284;
+      padding: 10px;
+
+      .ranges {
+        padding: 0 40px;
+      }
+
+      .toolbar {
+
         display: block;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+      }
     }
-
-    #chart {
-        position: absolute;
-        width: 100%;
-    }
-
-    .noUi-vertical {
-        display: inline-block;
-        height: 400px;
-        cursor: pointer;
-
-        .noUi-handle {
-            cursor: -webkit-grab;
-
-            &.noUi-active {
-                cursor: -webkit-grabbing;
-            }
-        }
-    }
-
-    // Disable window dragging
-    .button, .noUi-vertical {
-        -webkit-app-region: no-drag;
-    }
-
-    .button {
-        //background: transparent;
-        //color: white;
-
-        background: rgba(255, 255, 255, .2);
-        border: 1px solid rgba(255, 255, 255, .35);
-        color: rgba(255, 255, 255, .85);
-
-        &:hover {
-            color: rgba(255, 255, 255, .85);
-            border: 1px solid white !important;
-        }
-    }
-
-    html,
-    body {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    html {
-        background: radial-gradient(ellipse at bottom, rgba(210, 73, 118, 1) 0%, rgba(61, 25, 136, 1));
-    }
-
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        // TODO enable adter debug
-        //-webkit-app-region: drag;
-    }
-
-    .equalizer {
-        user-select: none;
-        width: 100vw;
-        max-width: 1110px;
-        box-shadow: 1px 1px 50px rgba(0, 0, 0, .5);
-        border-radius: 4px;
-        color: #484848;
-        font-family: sans-serif;
-        height: 450px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        overflow: hidden;
-
-        .sidebar {
-            background-color: #fff;
-            width: 50px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            .caption {
-                padding: 10px 0px;
-                flex-basis: 10%;
-            }
-
-        }
-        .controls {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            background: #b71284;
-            padding: 10px;
-
-            .ranges {
-                padding: 0 40px;
-            }
-
-            .toolbar {
-
-                display: block;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                padding-bottom: 10px;
-            }
-        }
-    }
+  }
 </style>
