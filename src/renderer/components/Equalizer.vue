@@ -36,6 +36,10 @@
 
       const ctx = document.getElementById('chart').getContext('2d');
 
+      const gradient = ctx.createLinearGradient(0, 0, 0, 600);
+      gradient.addColorStop(0, '#ff976f');
+      gradient.addColorStop(1, '#9850e9');
+
 
       const chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -45,9 +49,10 @@
         data: {
           labels: values.map(value => value[0]),
           datasets: [{
-            label: "My First dataset",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'blue',
+            backgroundColor : gradient,
+            // label: "My First dataset",
+            // backgroundColor: 'rgb(255, 99, 132)',
+            //borderColor: 'blue',
             pointRadius: 0, // Do not show dots
             data: values.map(value => value[1]),
           }]
