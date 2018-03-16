@@ -179,13 +179,16 @@
     .noUi-handle {
       cursor: -webkit-grab;
       width: 20px;
+      height: 24px;
 
       &:before {
         width: 6px;
+        top: 9px;
       }
 
       &:after {
         width: 6px;
+        top: 12px;
       }
 
       &.noUi-active {
