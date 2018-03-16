@@ -7,7 +7,7 @@
     </div>
     <div class="controls">
       <div class="toolbar">
-        <a class="button is-small" @click="reset">Reset</a>
+        <a class="button is-small" @click="resetValues">Reset</a>
         <div class="buttons has-addons">
           <a class="button is-small" @click="minimize">_</a>
           <a class="button is-small" @click="close">X</a>
@@ -20,6 +20,7 @@
                     :value="value[1]"
                     :label="value[0]"
                     :show-scale="index === valueMap.length - 1"
+                    :reset="reset"
                     @update="sliderUpdate($event, index)"/>
           </div>
         </div>
@@ -40,6 +41,8 @@
     data: function () {
       return {
         chart: null,
+        reset: false,
+        resetCount: 0,
         valueMap: [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
           [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]]
       }
@@ -103,11 +106,10 @@
       });
     },
     methods: {
-      reset() {
-        this.valueMap.forEach((value, index) => {
-          //this.valueMap.$set(index, )
-          this.valueMap.splice(index, 1, [value[0], 0]);
-        });
+      resetValues() {
+        //this.valueMap = this.valueMap.map(value => [value[0], 0]);
+        this.reset = true;
+        this.resetCount = this.valueMap.length
       },
       minimize() {
         this.$electron.remote.BrowserWindow.getFocusedWindow().minimize()
@@ -116,11 +118,17 @@
         this.$electron.remote.app.quit()
       },
       sliderUpdate(values, index) {
+        if (this.reset) {
+          this.resetCount -= 1;
+          this.reset = this.resetCount !== 0;
+        }
+
         if (this.chart) {
           this.chart.data.datasets[0].data[index] = Number(values[0]);
           this.chart.update();
         }
-        //this.valueMap.splice(index, 1, [this.valueMap[index][0], Number(values[0])]);
+
+        this.$set(this.valueMap, index, [this.valueMap[index][0], Number(values[0])]);
       },
     }
   }

@@ -15,7 +15,8 @@
     props: {
       value: Number,
       label: [String, Number],
-      showScale: Boolean
+      showScale: Boolean,
+      reset: Boolean
     },
     mounted: function () {
         const rangeOptions = {
@@ -48,9 +49,10 @@
       });
     },
     watch: {
-      value: function(newVal, oldVal) {
-        console.log(newVal)
-        this.$refs.slider.noUiSlider.set(newVal);
+      reset: function(newVal, oldVal) {
+        if (newVal) {
+          this.$refs.slider.noUiSlider.set(0);
+        }
       }
     }
   }
