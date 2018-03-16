@@ -16,7 +16,7 @@
 
       </div>
       <div class="chart-container">
-        <div id="ranges" class="columns is-mobile"></div>
+        <div id="ranges" class="columns is-mobile is-gapless"></div>
         <canvas id="chart"></canvas>
       </div>
     </div>
@@ -50,9 +50,7 @@
           labels: values.map(value => value[0]),
           datasets: [{
             backgroundColor : gradient,
-            // label: "My First dataset",
-            // backgroundColor: 'rgb(255, 99, 132)',
-            //borderColor: 'blue',
+            //borderColor: '#ff976f',
             pointRadius: 0, // Do not show dots
             data: values.map(value => value[1]),
           }]
@@ -124,6 +122,8 @@
             stepped: true,
             density: 3
           };
+
+          div.className += ' is-narrow';
         }
 
         noUiSlider.create(element, rangeOptions);
@@ -172,12 +172,16 @@
     background: #25313b;
     padding: 10px;
     border-radius: 4px;
+
+    #chart {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
   }
 
-  #chart {
-    position: absolute;
-    top: 0;
-    width: 100%;
+  .column.is-narrow {
+    width: 77px;
   }
 
   .noUi-vertical {
