@@ -1,7 +1,7 @@
 <template>
   <div class="equalizer">
     <div class="sidebar">
-      <div class="caption">Preamp</div>
+      <div class="caption">Pre</div>
       <div class="input">
         <div class="range"/>
       </div>
@@ -164,6 +164,9 @@
   .chart-container {
     position: relative;
     height: 100%;
+    background: #25313b;
+    padding: 10px;
+    border-radius: 4px;
   }
 
   #chart {
@@ -183,6 +186,10 @@
       &.noUi-active {
         cursor: -webkit-grabbing;
       }
+    }
+
+    .noUi-connect {
+      background: linear-gradient(#02e0c4, #3c96e5);
     }
   }
 
@@ -245,7 +252,8 @@
     overflow: hidden;
 
     .sidebar {
-      background-color: #fff;
+      background: #25313b;
+
       width: 50px;
       height: 100%;
       display: flex;
@@ -264,7 +272,8 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      background: #b71284;
+      //background: #b71284;
+      background: #1e2931;
       padding: 10px;
 
       .ranges {
@@ -274,7 +283,6 @@
       .toolbar {
 
         display: block;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         padding-bottom: 10px;
 
         .buttons {
