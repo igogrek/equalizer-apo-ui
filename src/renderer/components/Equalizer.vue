@@ -9,7 +9,7 @@
     <div class="controls">
       <div class="toolbar">
         <a class="button is-small" @click="reset">Reset</a>
-        <a class="button is-small is-pulled-right" @click="close">X</a>
+        <a class="button is-small button-right" @click="close">X</a>
       </div>
       <div class="chart-container">
         <div id="ranges" class="columns is-mobile"></div>
@@ -192,10 +192,20 @@
     border: 1px solid rgba(255, 255, 255, .35);
     color: rgba(255, 255, 255, .85);
 
+    &.is-small {
+      border-radius: 3px;
+    }
+
+
     &:hover {
       color: rgba(255, 255, 255, .85);
       border: 1px solid white !important;
     }
+  }
+
+  .button-right {
+    right: 20px;
+    position: absolute;
   }
 
   html,
@@ -205,7 +215,8 @@
   }
 
   html {
-    background: radial-gradient(ellipse at bottom, rgba(210, 73, 118, 1) 0%, rgba(61, 25, 136, 1));
+    //background: radial-gradient(ellipse at bottom, rgba(210, 73, 118, 1) 0%, rgba(61, 25, 136, 1));
+    background: transparent;
   }
 
   body {
@@ -218,13 +229,13 @@
 
   .equalizer {
     user-select: none;
-    width: calc(100vw - 40px);
-    box-shadow: 1px 1px 50px rgba(0, 0, 0, .5);
+    width: calc(100vw - 20px);
+    box-shadow: 1px 1px 25px rgba(0, 0, 0, .5);
     border-radius: 4px;
     color: #484848;
     font-family: sans-serif;
-    height: calc(100% - 40px);
-    margin: 20px;
+    height: calc(100% - 20px);
+    margin: 10px;
 
     display: flex;
     flex-direction: row;
