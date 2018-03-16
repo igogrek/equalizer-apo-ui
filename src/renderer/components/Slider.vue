@@ -45,7 +45,8 @@
         noUiSlider.create(this.$refs.slider, rangeOptions);
 
       this.$refs.slider.noUiSlider.on('update', values => {
-        this.$emit('update', values)
+        // Send number as slider value
+        this.$emit('update', Number(values[0]))
       });
     },
     watch: {

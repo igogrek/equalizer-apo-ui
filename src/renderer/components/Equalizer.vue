@@ -117,18 +117,18 @@
       close() {
         this.$electron.remote.app.quit()
       },
-      sliderUpdate(values, index) {
+      sliderUpdate(value, index) {
         if (this.reset) {
           this.resetCount -= 1;
           this.reset = this.resetCount !== 0;
         }
 
         if (this.chart) {
-          this.chart.data.datasets[0].data[index] = Number(values[0]);
+          this.chart.data.datasets[0].data[index] = value;
           this.chart.update();
         }
 
-        this.$set(this.valueMap, index, [this.valueMap[index][0], Number(values[0])]);
+        this.$set(this.valueMap, index, [this.valueMap[index][0], value]);
       },
     }
   }
