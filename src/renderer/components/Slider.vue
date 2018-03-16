@@ -3,7 +3,7 @@
     <div ref="slider">
 
     </div>
-    <div>{{ label }}</div>
+    <div class="label">{{ label }}</div>
   </div>
 </template>
 
@@ -42,9 +42,23 @@
         }
 
         noUiSlider.create(this.$refs.slider, rangeOptions);
+
+      this.$refs.slider.noUiSlider.on('update', values => {
+        this.$emit('update', values)
+      });
+    },
+    watch: {
+      value: function(newVal, oldVal) {
+        console.log(newVal)
+        this.$refs.slider.noUiSlider.set(newVal);
+      }
     }
   }
 </script>
 
 <style lang="scss">
+  .label {
+    margin-left: -7px;
+    color: #999999;
+  }
 </style>

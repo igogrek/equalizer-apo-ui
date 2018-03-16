@@ -1,7 +1,6 @@
 <template>
   <div class="equalizer">
     <div class="sidebar">
-      <div class="caption">Pre</div>
       <div class="input">
         <Slider :value="0" :label="'Pre'"></Slider>
       </div>
@@ -13,16 +12,17 @@
           <a class="button is-small" @click="minimize">_</a>
           <a class="button is-small" @click="close">X</a>
         </div>
-
       </div>
       <div class="chart-container">
         <div class="columns is-mobile is-gapless">
-
           <div class="column" v-for="(value, index) in valueMap" :class="{'is-narrow': index === valueMap.length - 1}">
-            <Slider :value="value[1]" :label="value[0]" :show-scale="index === valueMap.length - 1"></Slider>
+            <Slider
+                    :value="value[1]"
+                    :label="value[0]"
+                    :show-scale="index === valueMap.length - 1"
+                    @update="sliderUpdate($event, index)"/>
           </div>
         </div>
-
 
         <canvas id="chart"></canvas>
       </div>
@@ -39,6 +39,7 @@
     components: {Slider},
     data: function () {
       return {
+        chart: null,
         valueMap: [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
           [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]]
       }
@@ -52,7 +53,7 @@
       gradient.addColorStop(1, '#9850e9');
 
 
-      const chart = new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -60,7 +61,7 @@
         data: {
           labels: this.valueMap.map(value => value[0]),
           datasets: [{
-            backgroundColor : gradient,
+            backgroundColor: gradient,
             //borderColor: '#ff976f',
             pointRadius: 0, // Do not show dots
             data: this.valueMap.map(value => value[1]),
@@ -100,23 +101,26 @@
           }
         }
       });
-
-      // this.$el.noUiSlider.on('update', values => {
-      //   chart.data.datasets[0].data[index] = Number(values[0]);
-      //   chart.update();
-      // });
     },
     methods: {
       reset() {
-        document.querySelectorAll('#ranges > div > div').forEach(range => {
-          range.noUiSlider.set(0)
-        })
+        this.valueMap.forEach((value, index) => {
+          //this.valueMap.$set(index, )
+          this.valueMap.splice(index, 1, [value[0], 0]);
+        });
       },
       minimize() {
         this.$electron.remote.BrowserWindow.getFocusedWindow().minimize()
       },
       close() {
         this.$electron.remote.app.quit()
+      },
+      sliderUpdate(values, index) {
+        if (this.chart) {
+          this.chart.data.datasets[0].data[index] = Number(values[0]);
+          this.chart.update();
+        }
+        //this.valueMap.splice(index, 1, [this.valueMap[index][0], Number(values[0])]);
       },
     }
   }
@@ -156,8 +160,8 @@
   .columns.is-mobile.is-gapless {
     margin-bottom: 0;
     // TODO add centered text
-//    margin-left: -24px;
-//    margin-right: 34px;
+    //    margin-left: -24px;
+    //    margin-right: 34px;
 
   }
 
@@ -221,7 +225,6 @@
   }
 
   html {
-    //background: radial-gradient(ellipse at bottom, rgba(210, 73, 118, 1) 0%, rgba(61, 25, 136, 1));
     background: transparent;
   }
 
@@ -254,10 +257,7 @@
 
       width: 50px;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 57px 21px;
 
       .caption {
         padding: 10px 0px;
@@ -270,7 +270,6 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      //background: #b71284;
       background: #1e2931;
       padding: 10px;
 
