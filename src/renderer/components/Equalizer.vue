@@ -22,7 +22,6 @@
 <script>
   import noUiSlider from 'nouislider'
   import Chart from 'chart.js';
-  import 'nouislider/distribute/nouislider.css'
 
   export default {
     name: 'equalizer',
@@ -144,6 +143,7 @@
   @import '~bulma/sass/base/_all';
   @import '~bulma/sass/grid/columns';
   @import '~bulma/sass/elements/button';
+  @import '~nouislider/distribute/nouislider.css';
 
   // Show tooltip only on click
   .noUi-tooltip {
@@ -218,8 +218,7 @@
 
   .equalizer {
     user-select: none;
-    width: 100vw;
-    max-width: 1000px;
+    width: calc(100vw - 40px);
     box-shadow: 1px 1px 50px rgba(0, 0, 0, .5);
     border-radius: 4px;
     color: #484848;
