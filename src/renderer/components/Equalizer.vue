@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class="caption">Pre</div>
       <div class="input">
-        <div class="range"/>
+        <Slider :value="0" :label="'Pre'"></Slider>
       </div>
     </div>
     <div class="controls">
@@ -16,7 +16,14 @@
 
       </div>
       <div class="chart-container">
-        <div id="ranges" class="columns is-mobile is-gapless"></div>
+        <div class="columns is-mobile is-gapless">
+
+          <div class="column" v-for="(value, index) in valueMap" :class="{'is-narrow': index === valueMap.length - 1}">
+            <Slider :value="value[1]" :label="value[0]" :show-scale="index === valueMap.length - 1"></Slider>
+          </div>
+        </div>
+
+
         <canvas id="chart"></canvas>
       </div>
     </div>
@@ -24,15 +31,19 @@
 </template>
 
 <script>
-  import noUiSlider from 'nouislider'
   import Chart from 'chart.js';
+  import Slider from './Slider.vue';
 
   export default {
-    name: 'equalizer',
+    name: 'Equalizer',
+    components: {Slider},
+    data: function () {
+      return {
+        valueMap: [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
+          [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]]
+      }
+    },
     mounted: function () {
-
-      const values = [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
-        [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]];
 
       const ctx = document.getElementById('chart').getContext('2d');
 
@@ -47,12 +58,12 @@
 
         // The data for our dataset
         data: {
-          labels: values.map(value => value[0]),
+          labels: this.valueMap.map(value => value[0]),
           datasets: [{
             backgroundColor : gradient,
             //borderColor: '#ff976f',
             pointRadius: 0, // Do not show dots
-            data: values.map(value => value[1]),
+            data: this.valueMap.map(value => value[1]),
           }]
         },
 
@@ -90,49 +101,10 @@
         }
       });
 
-      const rangesNode = document.getElementById('ranges');
-      values.forEach((valueMap, index) => {
-
-        const div = document.createElement('div');
-        div.className = 'column';
-
-        rangesNode.appendChild(div);
-
-        const element = document.createElement('div');
-        div.appendChild(element);
-
-        const rangeOptions = {
-          start: [valueMap[1]],
-          animate: true,
-          animationDuration: 500,
-          range: {
-            'min': [-100],
-            'max': [100]
-          },
-          orientation: 'vertical',
-          direction: 'rtl',
-          tooltips: true,
-          connect: [true, false]
-        };
-        // Show pips only on last slider
-        if (index === values.length - 1) {
-          rangeOptions.pips = {
-            mode: 'values',
-            values: [-100, -75, -50, -25, 0, 25, 50, 75, 100],
-            stepped: true,
-            density: 3
-          };
-
-          div.className += ' is-narrow';
-        }
-
-        noUiSlider.create(element, rangeOptions);
-
-        element.noUiSlider.on('update', values => {
-          chart.data.datasets[0].data[index] = Number(values[0]);
-          chart.update();
-        });
-      });
+      // this.$el.noUiSlider.on('update', values => {
+      //   chart.data.datasets[0].data[index] = Number(values[0]);
+      //   chart.update();
+      // });
     },
     methods: {
       reset() {
@@ -181,13 +153,21 @@
     }
   }
 
+  .columns.is-mobile.is-gapless {
+    margin-bottom: 0;
+    // TODO add centered text
+//    margin-left: -24px;
+//    margin-right: 34px;
+
+  }
+
   .column.is-narrow {
     width: 77px;
   }
 
   .noUi-vertical {
     display: inline-block;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 130px);
     width: 10px;
     cursor: pointer;
     z-index: 1;
@@ -220,10 +200,7 @@
   }
 
   .button {
-    //background: transparent;
-    //color: white;
-
-    background: rgba(255, 255, 255, .2);
+    background: transparent;
     border: 1px solid rgba(255, 255, 255, .35);
     color: rgba(255, 255, 255, .85);
 
