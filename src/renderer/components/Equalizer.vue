@@ -11,10 +11,8 @@
         <a class="button is-small" @click="reset">Reset</a>
         <a class="button is-small is-pulled-right" @click="close">X</a>
       </div>
-      <div>
-        <div id="ranges" class="columns is-mobile">
-
-        </div>
+      <div class="chart-container">
+        <div id="ranges" class="columns is-mobile"></div>
         <canvas id="chart"></canvas>
       </div>
     </div>
@@ -54,6 +52,7 @@
 
         // Configuration options go here
         options: {
+          maintainAspectRatio: false,
           animation: {
             duration: 500
           },
@@ -67,7 +66,7 @@
                 drawBorder: false,
               },
               ticks: {
-                fontColor: 'white'
+                display: false
               }
             }],
             yAxes: [{
@@ -155,8 +154,14 @@
     display: block;
   }
 
+  .chart-container {
+    position: relative;
+    height: 100%;
+  }
+
   #chart {
     position: absolute;
+    top: 0;
     width: 100%;
   }
 
