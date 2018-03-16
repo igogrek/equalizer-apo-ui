@@ -1,4 +1,5 @@
 import {app, BrowserWindow} from 'electron'
+import * as windowStateKeeper from 'electron-window-state';
 
 /**
  * Set `__static` path to static files in production
@@ -8,25 +9,33 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
+let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
 function createWindow() {
+
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1000,
+    defaultHeight: 560
+  });
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000,
+    //useContentSize: true,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     frame: process.env.NODE_ENV === 'development',
     transparent: process.env.NODE_ENV !== 'development',
     resizable: true
-  })
+  });
+  mainWindowState.manage(mainWindow);
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -39,13 +48,13 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
-})
+});
 
 /**
  * Auto Updater
