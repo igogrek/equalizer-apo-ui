@@ -188,6 +188,7 @@
       cursor: -webkit-grab;
       width: 20px;
       height: 24px;
+      top: -12px;
 
       &:before {
         width: 6px;
