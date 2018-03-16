@@ -172,11 +172,12 @@
     background: #25313b;
     padding: 10px;
     border-radius: 4px;
+    margin-left: 5px;
 
     #chart {
       position: absolute;
       top: 0;
-      width: 100%;
+      width: calc(100% - 96px) !important;
     }
   }
 
@@ -187,10 +188,21 @@
   .noUi-vertical {
     display: inline-block;
     height: calc(100vh - 100px);
+    width: 10px;
     cursor: pointer;
+    z-index: 1;
 
     .noUi-handle {
       cursor: -webkit-grab;
+      width: 20px;
+
+      &:before {
+        width: 6px;
+      }
+
+      &:after {
+        width: 6px;
+      }
 
       &.noUi-active {
         cursor: -webkit-grabbing;
