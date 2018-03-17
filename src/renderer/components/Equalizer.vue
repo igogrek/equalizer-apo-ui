@@ -25,19 +25,19 @@
           </div>
         </div>
 
-        <canvas id="chart"></canvas>
+        <Chart :data="chartData" :labels="labels"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Chart from 'chart.js';
   import Slider from './Slider.vue';
+  import Chart from './Chart.vue';
 
   export default {
     name: 'Equalizer',
-    components: {Slider},
+    components: {Slider, Chart},
     data: function () {
       return {
         chart: null,
@@ -47,63 +47,13 @@
           [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]]
       }
     },
-    mounted: function () {
-
-      const ctx = document.getElementById('chart').getContext('2d');
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, 600);
-      gradient.addColorStop(0, '#ff976f');
-      gradient.addColorStop(1, '#9850e9');
-
-
-      this.chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-          labels: this.valueMap.map(value => value[0]),
-          datasets: [{
-            backgroundColor: gradient,
-            //borderColor: '#ff976f',
-            pointRadius: 0, // Do not show dots
-            data: this.valueMap.map(value => value[1]),
-          }]
-        },
-
-        // Configuration options go here
-        options: {
-          maintainAspectRatio: false,
-          animation: {
-            duration: 500
-          },
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              gridLines: {
-                display: false,
-                drawBorder: false,
-              },
-              ticks: {
-                display: false
-              }
-            }],
-            yAxes: [{
-              gridLines: {
-                display: false,
-                drawBorder: false
-              },
-              ticks: {
-                display: false,
-                max: 100,
-                min: -100
-              }
-            }]
-          }
-        }
-      });
+    computed: {
+      labels: function () {
+        return this.valueMap.map(value => value[0]);
+      },
+      chartData: function () {
+        return this.valueMap.map(value => value[1]);
+      }
     },
     methods: {
       resetValues() {
@@ -121,11 +71,6 @@
         if (this.reset) {
           this.resetCount -= 1;
           this.reset = this.resetCount !== 0;
-        }
-
-        if (this.chart) {
-          this.chart.data.datasets[0].data[index] = value;
-          this.chart.update();
         }
 
         this.$set(this.valueMap, index, [this.valueMap[index][0], value]);
