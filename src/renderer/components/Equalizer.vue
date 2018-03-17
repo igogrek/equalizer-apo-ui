@@ -36,6 +36,8 @@
   import Chart from './Chart.vue';
   import * as fs from 'fs';
 
+  const EQ_LINE_START = 'GraphicEQ:';
+
   export default {
     name: 'Equalizer',
     components: {Slider, Chart},
@@ -63,16 +65,14 @@
       parseConfig() {
         const configPath = 'C:/Program Files/EqualizerAPO/config/config.txt';
         fs.readFile(configPath, (err, data) => {
-          if (err) {
-            return console.error(err);
-          }
+          if (err) return console.error(err);
+
           const lines = data.toString().split(`\n`);
           if (lines.length > 1) {
             let eqLine = lines[1];
 
-            const eqLineStart = 'GraphicEQ: ';
-            if (eqLine.startsWith(eqLineStart)) {
-              eqLine = eqLine.replace(eqLineStart, '');
+            if (eqLine.startsWith(EQ_LINE_START)) {
+              eqLine = eqLine.replace(EQ_LINE_START, '');
 
               this.valueMap = [];
               eqLine.split(';').forEach(part => {
@@ -81,6 +81,23 @@
               });
             }
           }
+        });
+      },
+      buildConfig() {
+        let config = 'Preamp: -9.0 dB\n';
+        config += EQ_LINE_START;
+        this.valueMap.forEach((map, index) => {
+          config += ` ${map[0]} ${map[1]}`;
+          if (index !== this.valueMap.length - 1) {
+            config += ';';
+          }
+        });
+        return config;
+      },
+      writeConfig() {
+        const configPath = 'C:/Program Files/EqualizerAPO/config/config.txt';
+        fs.writeFile(configPath, this.buildConfig(), (err) => {
+          if (err) return console.log(err);
         });
       },
       resetValues() {
@@ -101,6 +118,8 @@
         }
 
         this.$set(this.valueMap, index, [this.valueMap[index][0], value]);
+
+        this.writeConfig();
       },
     }
   }
