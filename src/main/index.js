@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from 'electron'
+import {app, Menu, Tray, BrowserWindow} from 'electron'
 import * as windowStateKeeper from 'electron-window-state';
 
 /**
@@ -39,7 +39,31 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
-  })
+  });
+
+  // Minimize to tray
+  const tray = new Tray('./build/icons/icon.ico');
+  tray.setToolTip('Equalizer APO UI');
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'Show Equalizer APO UI', click: function () {
+      mainWindow.show()
+    }
+  }, {
+    label: 'Quit', click: function () {
+      app.isQuiting = true
+      app.quit()
+    }
+  }]);
+  tray.setContextMenu(contextMenu);
+
+  tray.on('click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+  });
+
+  mainWindow.on('minimize', function (event) {
+    event.preventDefault();
+    mainWindow.hide();
+  });
 }
 
 app.on('ready', createWindow)
