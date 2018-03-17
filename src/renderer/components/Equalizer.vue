@@ -13,7 +13,7 @@
           <a class="button is-small" @click="close">X</a>
         </div>
       </div>
-      <div class="chart-container">
+      <div class="equalizer-container">
         <div class="columns is-mobile is-gapless">
           <div class="column" v-for="(value, index) in valueMap" :class="{'is-narrow': index === valueMap.length - 1}">
             <Slider
@@ -84,75 +84,22 @@
   @import '~bulma/sass/base/_all';
   @import '~bulma/sass/grid/columns';
   @import '~bulma/sass/elements/button';
-  @import '~nouislider/distribute/nouislider.css';
 
-  // Show tooltip only on click
-  .noUi-tooltip {
-    display: none;
-  }
-
-  .noUi-active .noUi-tooltip {
-    display: block;
-  }
-
-  .chart-container {
+  .equalizer-container {
     position: relative;
     height: 100%;
     background: #25313b;
     padding: 10px;
     border-radius: 4px;
     margin-left: 5px;
-
-    #chart {
-      position: absolute;
-      top: 0;
-      width: calc(100% - 96px) !important;
-    }
   }
 
   .columns.is-mobile.is-gapless {
     margin-bottom: 0;
-    // TODO add centered text
-    //    margin-left: -24px;
-    //    margin-right: 34px;
-
   }
 
   .column.is-narrow {
     width: 77px;
-  }
-
-  .noUi-vertical {
-    display: inline-block;
-    height: calc(100vh - 130px);
-    width: 10px;
-    cursor: pointer;
-    z-index: 1;
-
-    .noUi-handle {
-      cursor: -webkit-grab;
-      width: 20px;
-      height: 24px;
-      top: -12px;
-
-      &:before {
-        width: 6px;
-        top: 9px;
-      }
-
-      &:after {
-        width: 6px;
-        top: 12px;
-      }
-
-      &.noUi-active {
-        cursor: -webkit-grabbing;
-      }
-    }
-
-    .noUi-connect {
-      background: linear-gradient(#02e0c4, #3c96e5);
-    }
   }
 
   // Disable window dragging
@@ -211,7 +158,6 @@
 
     .sidebar {
       background: #25313b;
-
       width: 50px;
       height: 100%;
       padding: 57px 21px;
@@ -235,7 +181,6 @@
       }
 
       .toolbar {
-
         display: block;
         padding-bottom: 10px;
 

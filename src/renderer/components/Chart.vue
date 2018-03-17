@@ -18,7 +18,6 @@
       gradient.addColorStop(0, '#ff976f');
       gradient.addColorStop(1, '#9850e9');
 
-
       this.chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -69,7 +68,7 @@
       });
     },
     watch: {
-      data: function(newVal, oldVal) {
+      data: function (newVal, oldVal) {
         if (newVal) {
           if (this.chart) {
             this.chart.data.datasets[0].data = newVal;
@@ -82,8 +81,9 @@
 </script>
 
 <style lang="scss">
-  .label {
-    margin-left: -7px;
-    color: #999999;
+  #chart {
+    position: absolute;
+    top: 0;
+    width: calc(100% - 96px) !important;
   }
 </style>
