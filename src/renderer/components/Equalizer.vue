@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <Chart :data="chartData" :labels="labels"/>
+        <Chart :chart-data="chartData" :labels="labels"/>
       </div>
     </div>
   </div>
@@ -34,17 +34,18 @@
 <script>
   import Slider from './Slider.vue';
   import Chart from './Chart.vue';
+  import * as fs from 'fs';
 
   export default {
     name: 'Equalizer',
     components: {Slider, Chart},
     data: function () {
       return {
-        chart: null,
         reset: false,
         resetCount: 0,
-        valueMap: [[25, 50], [40, 40.7], [63, 32.4], [100, 1], [160, 5], [250, 7], [400, 0], [630, 0.3],
-          [1000, 1], [1600, 1.7], [2500, 1], [4000, 2.4], [6300, 6], [10000, 9.5], [16000, 15.2]]
+        // TODO generate or remove
+        valueMap: [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],
+          [0, 0]]
       }
     },
     computed: {
@@ -55,7 +56,33 @@
         return this.valueMap.map(value => value[1]);
       }
     },
+    mounted: function () {
+      this.parseConfig();
+    },
     methods: {
+      parseConfig() {
+        const configPath = 'C:/Program Files/EqualizerAPO/config/config.txt';
+        fs.readFile(configPath, (err, data) => {
+          if (err) {
+            return console.error(err);
+          }
+          const lines = data.toString().split(`\n`);
+          if (lines.length > 1) {
+            let eqLine = lines[1];
+
+            const eqLineStart = 'GraphicEQ: ';
+            if (eqLine.startsWith(eqLineStart)) {
+              eqLine = eqLine.replace(eqLineStart, '');
+
+              this.valueMap = [];
+              eqLine.split(';').forEach(part => {
+                const eqMap = part.trim().split(' ');
+                this.valueMap.push([Number(eqMap[0]), Number(eqMap[1])])
+              });
+            }
+          }
+        });
+      },
       resetValues() {
         //this.valueMap = this.valueMap.map(value => [value[0], 0]);
         this.reset = true;

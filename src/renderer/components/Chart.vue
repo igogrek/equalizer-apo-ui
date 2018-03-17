@@ -8,8 +8,13 @@
   export default {
     name: 'Slider',
     props: {
-      data: Array,
+      chartData: Array,
       labels: Array,
+    },
+    data: function () {
+      return {
+        chart: null
+      }
     },
     mounted: function () {
       const ctx = document.getElementById('chart').getContext('2d');
@@ -29,7 +34,7 @@
             backgroundColor: gradient,
             //borderColor: '#ff976f',
             pointRadius: 0, // Do not show dots
-            data: this.data,
+            data: [],
           }]
         },
 
@@ -68,8 +73,9 @@
       });
     },
     watch: {
-      data: function (newVal, oldVal) {
+      chartData: function (newVal, oldVal) {
         if (newVal) {
+
           if (this.chart) {
             this.chart.data.datasets[0].data = newVal;
             this.chart.update();
