@@ -71,18 +71,22 @@
 
     .noUi-handle {
       cursor: -webkit-grab;
-      width: 20px;
-      height: 24px;
-      top: -12px;
+      top: -9px;
+      border-radius: 50%;
+      height: 18px;
+      width: 18px;
+      left: -5px;
 
       &:before {
+        left: 5px;
         width: 6px;
-        top: 9px;
+        top: 6px;
       }
 
       &:after {
+        left: 5px;
         width: 6px;
-        top: 12px;
+        top: 10px;
       }
 
       &.noUi-active {

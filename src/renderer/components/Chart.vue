@@ -35,6 +35,7 @@
             //borderColor: '#ff976f',
             pointRadius: 0, // Do not show dots
             data: [],
+            cubicInterpolationMode: 'monotone'
           }]
         },
 
@@ -91,5 +92,7 @@
     position: absolute;
     top: 0;
     width: calc(100% - 96px) !important;
+    height: calc(100% - 45px) !important;
+    top: 11px;
   }
 </style>
