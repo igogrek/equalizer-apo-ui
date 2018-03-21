@@ -46,8 +46,9 @@ function createWindow() {
   });
 
   // Minimize to tray
-  let trayIcon = nativeImage.createFromPath(iconPath);
-  let tray = new Tray(trayIcon);
+
+  // Use relative path only in development - for build use real icon
+  let tray = new Tray(process.env.NODE_ENV === 'development' ? iconPath : '../icons/icon.ico');
   tray.setToolTip('Equalizer APO UI');
   const contextMenu = Menu.buildFromTemplate([{
     label: 'Show Equalizer APO UI', click: function () {
