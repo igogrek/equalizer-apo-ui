@@ -18,6 +18,12 @@
       showScale: Boolean,
       reset: Boolean
     },
+    data: function () {
+      return {
+        lastValue: 0,
+        selfUpdate: false
+      }
+    },
     mounted: function () {
       const rangeOptions = {
         start: [this.value],
@@ -46,10 +52,22 @@
 
       this.$refs.slider.noUiSlider.on('update', values => {
         // Send number as slider value
-        this.$emit('update', Number(values[0]))
+        const value = Number(values[0]);
+
+        if (this.lastValue != value) {
+          this.$emit('update', value)
+          this.lastValue = value;
+          this.selfUpdate = true;
+        }
       });
     },
     watch: {
+      value: function (newVal, oldVal) {
+        if (newVal && !this.selfUpdate) {
+          this.$refs.slider.noUiSlider.set(this.value);
+        }
+        this.selfUpdate = true;
+      },
       reset: function (newVal, oldVal) {
         if (newVal) {
           this.$refs.slider.noUiSlider.set(0);

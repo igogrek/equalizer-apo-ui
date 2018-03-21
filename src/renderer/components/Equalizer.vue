@@ -119,7 +119,10 @@
 
         this.$set(this.valueMap, index, [this.valueMap[index][0], value]);
 
-        this.writeConfig();
+        // Skip initial value sets for writing the config
+        if (this.valueMap[0][0]) {
+          this.writeConfig();
+        }
       },
     }
   }
