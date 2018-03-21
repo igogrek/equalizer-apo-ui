@@ -71,6 +71,9 @@
 
           const lines = data.toString().split(`\n`);
           if (lines.length > 1) {
+            let preampLine = lines[0];
+            this.preamp = parseFloat(preampLine.replace('Preamp: ', '').replace(' dB', ''));
+
             let eqLine = lines[1];
 
             if (eqLine.startsWith(EQ_LINE_START)) {
