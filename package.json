@@ -1,6 +1,6 @@
 {
   "name": "equalizer-apo-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Igogrek <igogrek@gmail.com>",
   "description": "An electron-vue project",
   "license": null,
