@@ -101,7 +101,7 @@
         });
       },
       resetValues() {
-        //this.valueMap = this.valueMap.map(value => [value[0], 0]);
+        this.valueMap = this.valueMap.map(value => [value[0], 0]);
         this.reset = true;
         this.resetCount = this.valueMap.length
       },
