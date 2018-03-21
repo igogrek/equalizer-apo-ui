@@ -2,6 +2,8 @@
 
 > Nicer UI for Equalizer APO
 
+![Preview](https://raw.github.com/Igogrek/equalizer-apo-ui/master/preview.gif)
+
 Download and install Equalizer APO first to make this work https://sourceforge.net/projects/equalizerapo/files/latest/download
 
 For latest release look here: https://github.com/Igogrek/equalizer-apo-ui/releases 
