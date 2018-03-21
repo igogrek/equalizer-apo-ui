@@ -2,7 +2,8 @@
   <div class="equalizer">
     <div class="sidebar">
       <div class="input">
-        <Slider :value="0" :label="'Pre'"></Slider>
+        <Slider class="tooltip-right" :value="preamp" :label="'Pre'" min="-20" max="20"
+                @update="preampUpdate($event)"/>
       </div>
     </div>
     <div class="controls">
@@ -45,6 +46,7 @@
       return {
         reset: false,
         resetCount: 0,
+        preamp: 0,
         // TODO generate or remove
         valueMap: [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],
           [0, 0]]
@@ -84,7 +86,7 @@
         });
       },
       buildConfig() {
-        let config = 'Preamp: -9.0 dB\n';
+        let config = `Preamp: ${this.preamp} dB\n`;
         config += EQ_LINE_START;
         this.valueMap.forEach((map, index) => {
           config += ` ${map[0]} ${map[1]}`;
@@ -124,6 +126,10 @@
           this.writeConfig();
         }
       },
+      preampUpdate(value) {
+        this.preamp = value;
+        this.writeConfig();
+      }
     }
   }
 </script>
@@ -168,6 +174,12 @@
     &:hover {
       color: rgba(255, 255, 255, .85);
       border: 1px solid white !important;
+    }
+  }
+
+  .tooltip-right {
+    .noUi-vertical .noUi-tooltip {
+      right: -40px;
     }
   }
 

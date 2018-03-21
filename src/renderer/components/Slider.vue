@@ -16,7 +16,9 @@
       value: Number,
       label: [String, Number],
       showScale: Boolean,
-      reset: Boolean
+      reset: Boolean,
+      min: String,
+      max: String
     },
     data: function () {
       return {
@@ -30,8 +32,8 @@
         animate: true,
         animationDuration: 500,
         range: {
-          'min': [-100],
-          'max': [100]
+          min: [this.min ? Number(this.min) : -100],
+          max: [this.max ? Number(this.max) : 100]
         },
         orientation: 'vertical',
         direction: 'rtl',
@@ -119,6 +121,7 @@
     // Show tooltip only on click
     .noUi-tooltip {
       display: none;
+      padding: 2px;
     }
 
     .noUi-active .noUi-tooltip {
