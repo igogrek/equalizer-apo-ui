@@ -1,6 +1,10 @@
 # equalizer-apo-ui
 
-> An electron-vue project
+> Nicer UI for Equalizer APO
+
+Download and install Equalizer APO first to make this work https://sourceforge.net/projects/equalizerapo/files/latest/download
+
+For latest release look here: https://github.com/Igogrek/equalizer-apo-ui/releases 
 
 #### Build Setup
 
