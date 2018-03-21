@@ -200,8 +200,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // TODO enable adter debug
-    //-webkit-app-region: drag;
   }
 
   .equalizer {
@@ -219,6 +217,7 @@
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
+    -webkit-app-region: drag;
 
     .sidebar {
       background: #25313b;

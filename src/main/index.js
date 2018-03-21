@@ -1,5 +1,6 @@
-import {app, Menu, Tray, BrowserWindow} from 'electron'
+import {app, nativeImage, Menu, Tray, BrowserWindow} from 'electron'
 import * as windowStateKeeper from 'electron-window-state';
+import * as path from 'path';
 
 /**
  * Set `__static` path to static files in production
@@ -20,6 +21,8 @@ function createWindow() {
     defaultWidth: 1000,
     defaultHeight: 560
   });
+
+  const iconPath = path.join(__dirname, '../../build/icons/icon.ico');
   /**
    * Initial window options
    */
@@ -31,7 +34,8 @@ function createWindow() {
     height: mainWindowState.height,
     frame: process.env.NODE_ENV === 'development',
     transparent: process.env.NODE_ENV !== 'development',
-    resizable: true
+    resizable: true,
+    icon: iconPath
   });
   mainWindowState.manage(mainWindow);
 
@@ -42,7 +46,8 @@ function createWindow() {
   });
 
   // Minimize to tray
-  const tray = new Tray('./build/icons/icon.ico');
+  let trayIcon = nativeImage.createFromPath(iconPath);
+  let tray = new Tray(trayIcon);
   tray.setToolTip('Equalizer APO UI');
   const contextMenu = Menu.buildFromTemplate([{
     label: 'Show Equalizer APO UI', click: function () {
